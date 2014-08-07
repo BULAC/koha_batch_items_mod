@@ -31,10 +31,10 @@ Usage
     
     5055, notforloan: 99 -> 6
 
-    $ cat liste
+    $ cat list
     367
     25348
 
-    $ koha_batch_items_mod -a 5055 notforloan 6 liste
+    $ koha_batch_items_mod -a notforloan 6 list
     367, notforloan: 9 -> 6
     25348, notforloan: 0 -> 6
