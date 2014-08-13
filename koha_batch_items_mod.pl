@@ -60,8 +60,11 @@ if ($ARGV[0] =~ /^[0-9]{1,10}$/) {
     $itemnumber = shift @ARGV;
     $batchjob = "no";
 }
-my $column = shift @ARGV || HELP_MESSAGE();
-my $newvalue = shift @ARGV || HELP_MESSAGE();
+
+my $column = shift @ARGV ;
+HELP_MESSAGE() if (!defined $column);
+my $newvalue = shift @ARGV ;
+HELP_MESSAGE() if (!defined $newvalue);
 
 sub ModifyItem {
     my ($itemnumber, $column, $newvalue, $apply) = @_;
