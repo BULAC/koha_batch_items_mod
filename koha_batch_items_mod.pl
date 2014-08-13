@@ -78,7 +78,7 @@ sub ModifyItem {
 
     if (exists $item->{$column}) {
     	my $currentvalue = $item->{$column};
-    	print "$itemnumber, $column: $currentvalue -> $newvalue\n";
+    	print "biblionumber: $biblionumber, itemnumber: $itemnumber, $column: $currentvalue -> $newvalue\n";
 	if ($apply) {
 	    C4::Items::ModItem({$column => $newvalue}, $biblionumber, $itemnumber);
 	}
@@ -92,6 +92,7 @@ if ($batchjob eq "no") {
 } else {
     while (my $itemnumber = <>) {
 	chomp($itemnumber);
+	$itemnumber =~ s/\r$//;
 	ModifyItem($itemnumber, $column, $newvalue, $apply);
     }
 }
