@@ -31,6 +31,7 @@ use Getopt::Std;
 use File::Basename;
 use C4::Items;
 use C4::Biblio;
+use Koha::Items;
 
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 my %opts;
@@ -71,7 +72,8 @@ sub ModifyItem {
     if ($itemnumber !~ /^[0-9]{1,10}$/) {
 	die "Bad itemnumber: $itemnumber. Must be of form: [0-9]{1,10}";
     }
-    my $biblionumber = C4::Biblio::GetBiblionumberFromItemnumber($itemnumber);
+    my $item = Koha::Items->find($itemnumber);
+    my $biblionumber = $item->biblionumber;
     die "$itemnumber does not map to a bib record" unless (defined $biblionumber);
 
     my $item = C4::Items::GetItem($itemnumber);
@@ -86,6 +88,8 @@ sub ModifyItem {
     	die "$column is not a Koha DB column name";
     }
 }
+
+$newvalue = undef if ($newvalue eq 'NULL' or $newvalue eq '');
 
 if ($batchjob eq "no") {
     ModifyItem($itemnumber, $column, $newvalue, $apply);
